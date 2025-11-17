@@ -1,6 +1,7 @@
 package com.ykk.board.repository;
 
 import com.ykk.board.dto.BoardDTO;
+import com.ykk.board.dto.BoardFileDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,4 +16,13 @@ public interface BoardMapper {
     void updateHits(Long id);
 
     BoardDTO findById(Long id);
+
+    void update(BoardDTO boardDTO);
+
+    void delete(Long id);
+
+    void saveFile(BoardFileDTO boardFileDTO);  // 파일 정보 저장
+    List<BoardFileDTO> findFile(Long id);// 특정 게시글의 파일 목록
+
+
 }
