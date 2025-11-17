@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ykk.board.repository.BoardMapper">
+
+    <insert id="save" parameterType="com.ykk.board.dto.BoardDTO">
+        INSERT INTO board (boardTitle, boardWriter, boardPass, boardContents)
+        VALUES (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents})
+    </insert>
+
+    <select id="findAll" resultType="com.ykk.board.dto.BoardDTO">
+        SELECT
+            id,
+            boardTitle,
+            boardWriter,
+            boardPass,
+            boardContents,
+            boardHits,
+            createdAt
+        FROM board
+        ORDER BY id DESC
+    </select>
+
+    <update id="updateHits" parameterType="Long">
+        UPDATE board
+        SET boardHits = boardHits + 1
+        WHERE
+</mapper>
