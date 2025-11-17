@@ -50,8 +50,7 @@ Spring Boot 기반으로 개발되었으며 MyBatis를 이용한 데이터 접�
 
 ---
 
-# 2. Maven + JSP + MyBatis 방식과  
-#    Gradle + Thymeleaf + MyBatis 방식 비교
+# 2. Maven + JSP + MyBatis 방식과 Gradle + Thymeleaf + MyBatis 방식 비교
 
 프로젝트에서 MyBatis는 동일하게 사용하지만, 빌드 도구(Maven/Gradle)와 View 엔진(JSP/Thymeleaf)의 차이에 따라 구조와 개발 경험이 크게 다르다.
 
