@@ -4,9 +4,14 @@
 <mapper namespace="com.ykk.board.repository.BoardMapper">
 
     <!-- 글 저장 -->
-    <insert id="save" parameterType="com.ykk.board.dto.BoardDTO">
-        INSERT INTO board (boardTitle, boardWriter, boardPass, boardContents)
-        VALUES (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents})
+    <insert id="save"
+            parameterType="com.ykk.board.dto.BoardDTO"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO board
+            (boardTitle, boardWriter, boardPass, boardContents, fileAttached)
+        VALUES
+            (#{boardTitle}, #{boardWriter}, #{boardPass}, #{boardContents}, #{fileAttached})
     </insert>
 
     <!-- 전체 조회 -->
