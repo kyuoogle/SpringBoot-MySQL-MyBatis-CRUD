@@ -70,16 +70,17 @@
 
         .image-wrap {
             display: flex;
+            flex-wrap: wrap;      /* 여러 이미지일 때 줄바꿈 허용 */
             gap: 14px;
             margin-top: 6px;
         }
 
         .image-thumb {
-            width: 220px;
-            height: 220px;
-            object-fit: cover;
+            max-width: 100%;      /* 부모 너비까지만 확장 */
+            height: auto;         /* 비율 유지 */
             border-radius: 6px;
             border: 1px solid #ddd;
+            object-fit: contain;  /* 이미지 짤리지 않게 원본 비율 유지 */
         }
 
         .btn-area {
@@ -341,7 +342,6 @@
             })
             .catch(err => console.error(err));
     }
-
 
     const deleteComment = (commentId, boardId) => {
         const pass = prompt("댓글 비밀번호를 입력하세요.");
