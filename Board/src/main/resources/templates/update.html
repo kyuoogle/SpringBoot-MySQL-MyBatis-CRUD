@@ -1,40 +1,172 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>update</title>
+    <title>게시글 수정</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #f4f4f4;
+            padding: 40px 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 32px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .sub-text {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            background-color: #fafafa;
+        }
+
+        input[readonly] {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .btn-area {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-primary {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.15s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-back {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.15s ease-in-out;
+        }
+
+        .btn-back:hover {
+            background-color: #e5e7eb;
+        }
+    </style>
 </head>
 <body>
-<form th:action="@{|/update/${board.id}|}" method="post" name="updateForm">
-    <!-- PK는 hidden 으로 같이 전송 -->
-    <input type="hidden" name="id" th:value="${board.id}">
 
-    writer:
-    <input type="text" name="boardWriter" th:value="${board.boardWriter}" readonly><br>
+<div class="container">
+    <h1 class="title">게시글 수정</h1>
+    <p class="sub-text">작성 시 사용한 비밀번호를 입력해야 수정이 완료됩니다.</p>
 
-    title:
-    <input type="text" name="boardTitle" th:value="${board.boardTitle}"><br>
+    <form th:action="@{|/update/${board.id}|}" method="post" name="updateForm">
+        <!-- PK는 hidden 으로 같이 전송 -->
+        <input type="hidden" name="id" th:value="${board.id}">
 
-    pass:
-    <input type="password" name="boardPass" id="board-pass"><br>
+        <div class="form-group">
+            <label class="label">작성자</label>
+            <input type="text" name="boardWriter"
+                   th:value="${board.boardWriter}"
+                   readonly>
+        </div>
 
-    contents:
-    <textarea name="boardContents" cols="30" rows="10"
-              th:text="${board.boardContents}"></textarea><br>
+        <div class="form-group">
+            <label class="label">제목</label>
+            <input type="text" name="boardTitle"
+                   th:value="${board.boardTitle}">
+        </div>
 
-    <input type="button" value="수정" onclick="board_update()">
-</form>
-</body>
+        <div class="form-group">
+            <label class="label">비밀번호</label>
+            <input type="password" name="boardPass" id="board-pass" placeholder="작성 시 입력했던 비밀번호">
+        </div>
+
+        <div class="form-group">
+            <label class="label">내용</label>
+            <textarea name="boardContents"
+                      th:text="${board.boardContents}"></textarea>
+        </div>
+
+        <div class="btn-area">
+            <button type="button" class="btn-back" onclick="goList()">목록</button>
+            <input type="button" class="btn-primary" value="수정하기" onclick="board_update()">
+        </div>
+    </form>
+</div>
+
 <script th:inline="javascript">
     const board_update = () => {
         const boardPass = document.getElementById("board-pass").value;
         const passDB = [[${board.boardPass}]];   // 서버에서 가져온 원래 비밀번호
 
-        if (boardPass == passDB) {
-            updateForm.submit(); // form name="updateForm"
+        if (boardPass === passDB) {
+            updateForm.submit();
         } else {
-            alert("비밀번호가 틀립니다!!");
+            alert("비밀번호가 틀립니다.");
         }
     }
+
+    const goList = () => {
+        location.href = "/list";
+    }
 </script>
+</body>
 </html>

@@ -1,16 +1,15 @@
 package com.ykk.board.controller;
 
 import com.ykk.board.dto.BoardFileDTO;
+import com.ykk.board.dto.CommentDTO;
+import com.ykk.board.service.CommentService;
 import org.springframework.ui.Model;
 import com.ykk.board.dto.BoardDTO;
 import com.ykk.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -20,6 +19,7 @@ import java.util.List;
 @Slf4j
 public class BoardController {
     private final BoardService boardService;
+    private final CommentService commentService;
 
     @GetMapping("/save")
     public String save() {
@@ -54,6 +54,10 @@ public class BoardController {
             List<BoardFileDTO> boardFileDTOList = boardService.findFile(id);
             model.addAttribute("boardFileDTOList", boardFileDTOList);
         }
+
+        // 댓글 목록
+        List<CommentDTO> comments = commentService.findByBoardId(id);
+        model.addAttribute("comments", comments);
 
         return "detail";
     }
@@ -90,6 +94,12 @@ public class BoardController {
     public String delete(@PathVariable Long id) {
         boardService.delete(id);
         return "redirect:/list";
+    }
+
+    @PostMapping("/board/{id}/like")
+    @ResponseBody
+    public int like(@PathVariable Long id) {
+        return boardService.increaseLike(id); // 증가 후 수 반환
     }
 
 }

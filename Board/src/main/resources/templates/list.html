@@ -1,37 +1,158 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시글 목록</title>
     <style>
-        table, tr, td, th {
-            border: 1px solid black;
-            border-collapse: collapse;
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background-color: #f4f4f4;
+            padding: 40px 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 960px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px 28px 32px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .btn-write {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border-radius: 8px;
+            background-color: #2563eb;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s ease-in-out;
+        }
+
+        .btn-write:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .sub-text {
+            font-size: 13px;
+            color: #777;
+            margin-bottom: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        thead {
+            background-color: #f9fafb;
+        }
+
         th, td {
-            padding: 10px;
+            padding: 10px 8px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: center;
+        }
+
+        th {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        td.title-cell {
+            text-align: left;
+        }
+
+        tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        a.link-title {
+            color: #111827;
+            text-decoration: none;
+        }
+
+        a.link-title:hover {
+            text-decoration: underline;
+        }
+
+        .empty-row {
+            text-align: center;
+            padding: 20px 0;
+            color: #777;
         }
     </style>
 </head>
 <body>
-<a href="/save">글쓰기</a>
-<table>
-    <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>작성시간</th>
-        <th>조회수</th>
-    </tr>
-    <tr th:each="board : ${boardList}">
-        <td th:text="${board.id}"></td>
-        <td>
-            <a th:text="${board.boardTitle}" th:href="@{|/${board.id}|}"></a>
-        </td>
-        <td th:text="${board.boardWriter}"></td>
-        <td th:text="${board.createdAt}"></td>
-        <td th:text="${board.boardHits}"></td>
-    </tr>
-</table>
+
+<div class="container">
+    <div class="header">
+        <h1 class="title">게시글 목록</h1>
+        <a href="/save" class="btn-write">글쓰기</a>
+    </div>
+    <p class="sub-text">이미지와 함께 작성된 게시글들을 확인할 수 있습니다.</p>
+
+    <table>
+        <thead>
+        <tr>
+            <th style="width: 8%;">번호</th>
+            <th>제목</th>
+            <th style="width: 15%;">작성자</th>
+            <th style="width: 20%;">작성시간</th>
+            <th style="width: 10%;">조회수</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!-- 글이 하나도 없을 때 -->
+        <tr th:if="${#lists.isEmpty(boardList)}">
+            <td colspan="5" class="empty-row">등록된 게시글이 없습니다.</td>
+        </tr>
+
+        <!-- 글 목록 렌더링 -->
+        <tr th:each="board : ${boardList}">
+            <td th:text="${board.id}"></td>
+            <td class="title-cell">
+                <a class="link-title"
+                   th:text="${board.boardTitle}"
+                   th:href="@{|/${board.id}|}">
+                </a>
+            </td>
+            <td th:text="${board.boardWriter}"></td>
+            <td th:text="${board.createdAt}"></td>
+            <td th:text="${board.boardHits}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

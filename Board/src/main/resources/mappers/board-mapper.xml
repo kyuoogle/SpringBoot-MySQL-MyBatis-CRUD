@@ -23,6 +23,7 @@
             boardPass,
             boardContents,
             boardHits,
+            boardLike,
             createdAt
         FROM board
         ORDER BY id DESC
@@ -51,6 +52,7 @@
         WHERE id = #{id}
     </update>
 
+    <!-- 삭제 -->
     <delete id="delete" parameterType="long">
         DELETE FROM board
         WHERE id = #{id}
@@ -73,6 +75,26 @@
                storedFileName
         FROM board_file_table
         WHERE boardId = #{id}
+    </select>
+
+    <!-- ===================== -->
+    <!-- 게시글 좋아요 관련 쿼리 -->
+    <!-- ===================== -->
+
+    <!-- 좋아요 수 1 증가 -->
+    <update id="increaseLike" parameterType="long">
+        UPDATE board
+        SET boardLike = boardLike + 1
+        WHERE id = #{id}
+    </update>
+
+    <!-- 현재 좋아요 수 조회 -->
+    <select id="findLikeById"
+            parameterType="long"
+            resultType="int">
+        SELECT boardLike
+        FROM board
+        WHERE id = #{id}
     </select>
 
 </mapper>

@@ -6,9 +6,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/사용 중인 DB 명?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: MySQL 사용자 명
-    password: 해당 사용자 DB 접속 비밀번호
+    url: jdbc:mysql://localhost:3306/yk_board?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: y2k
+    password: 990719
 
 # MyBatis
 mybatis:

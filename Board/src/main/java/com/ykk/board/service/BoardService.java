@@ -68,6 +68,12 @@ public class BoardService {
         }
     }
 
+    public int increaseLike(Long id) {
+        boardMapper.increaseLike(id);
+        // 방금 +1 한 뒤의 좋아요 수 반환
+        return boardMapper.findLikeById(id);
+    }
+
     public List<BoardFileDTO> findFile(Long id) {
         return boardMapper.findFile(id);
     }

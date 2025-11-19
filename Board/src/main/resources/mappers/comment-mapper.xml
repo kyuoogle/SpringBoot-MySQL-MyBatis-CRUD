@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ykk.board.repository.CommentMapper">
+
+    <!-- 댓글 저장 -->
+    <insert id="save"
+            parameterType="com.ykk.board.dto.CommentDTO"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO comment
+            (boardId, commentWriter, commentPass, commentContents, likeCount)
+        VALUES
+            (#{boardId}, #{commentWriter}, #{commentPass}, #{commentContents}, 0)
+    </insert>
+
+    <!-- 게시글별 댓글 목록 -->
+    <select id="findByBoardId"
+            parameterType="long"
+            resultType="com.ykk.board.dto.CommentDTO">
+        SELECT
+            id,
+            boardId,
+            commentWriter,
+            commentPass,
+            commentContents,
+            likeCount,
+            DATE_FORMAT(createdAt, '%Y-%m-%d %H:%i:%s') AS createdAt
+        FROM comment
+        WHERE boardId = #{boardId}
+        ORDER BY id DESC
+    </select>
+
+    <!-- 비밀번호가 맞을 때만 수정 -->
+    <update id="updateWithPass"
+            parameterType="com.ykk.board.dto.CommentDTO">
+        UPDATE comment
+        SET commentContents = #{commentContents}
+        WHERE id = #{id}
+          AND commentPass = #{commentPass}
+    </update>
+
+    <!-- 비밀번호가 맞을 때만 삭제 -->
+    <delete id="deleteWithPass">
+        DELETE FROM comment
+        WHERE id = #{id}
+          AND commentPass = #{commentPass}
+    </delete>
+
+    <!-- 좋아요 +1 -->
+    <update id="increaseLike"
+            parameterType="long">
+        UPDATE comment
+        SET likeCount = likeCount + 1
+        WHERE id = #{id}
+    </update>
+
+</mapper>

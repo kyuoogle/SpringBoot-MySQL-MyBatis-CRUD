@@ -19,6 +19,8 @@ public class BoardDTO {
     private String boardContents;
     private int boardHits;
     private String createdAt;
+    private int boardLike;
+
 
     // 사진 저장을 위한 것, 일반 CRUD는 없어도 됨
     private int fileAttached;

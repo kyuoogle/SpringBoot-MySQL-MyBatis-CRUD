@@ -21,6 +21,10 @@ public interface BoardMapper {
 
     void delete(Long id);
 
+    void increaseLike(Long id);
+
+    Integer findLikeById(Long id);
+
     void saveFile(BoardFileDTO boardFileDTO);  // 파일 정보 저장
     List<BoardFileDTO> findFile(Long id);// 특정 게시글의 파일 목록
 
